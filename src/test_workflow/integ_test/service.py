@@ -70,14 +70,8 @@ class Service(abc.ABC):
         pass
 
     def service_alive(self):
-
-        logging.info("getting service response")
         response = self.get_service_response()
         logging.info(f"{response.status_code}: {response.text}")
-
-        logging.info("getting indices response")
-        indices_response = self.get_indices_response()
-        logging.info(f"_cat/indices: {indices_response.text}")
 
         # TODO: https://github.com/opensearch-project/opensearch-build/issues/1217
         if response.status_code == 200 and self.check_service_response_text(response.text):
@@ -92,6 +86,16 @@ class Service(abc.ABC):
         for attempt in range(10):
             try:
                 logging.info(f"Pinging service attempt {attempt}")
+
+                cluster_health_response = self.get_service_response()
+                logging.info(f"_cluster/health: {cluster_health_response.text}")
+
+                indices_response = self.get_indices_response()
+                logging.info(f"_cat/indices: {indices_response.text}")
+
+                pending_tasks_response = self.get_pending_tasks_response()
+                logging.info(f"_cluster/pending_tasks: {pending_tasks_response.text}")
+
                 if self.service_alive():
                     return
             except requests.exceptions.ConnectionError:

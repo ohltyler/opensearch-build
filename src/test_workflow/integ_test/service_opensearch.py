@@ -68,6 +68,11 @@ class ServiceOpenSearch(Service):
         logging.info(f"Pinging {url}")
         return requests.get(url, verify=False, auth=("admin", "admin"))
 
+    def get_pending_tasks_response(self):
+        url = self.url("/_cluster/pending_tasks")
+        logging.info(f"Pinging {url}")
+        return requests.get(url, verify=False, auth=("admin", "admin"))
+
     def __add_plugin_specific_config(self, additional_config):
         with open(self.opensearch_yml_dir, "a") as yamlfile:
             yamlfile.write(yaml.dump(additional_config))
