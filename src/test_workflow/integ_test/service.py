@@ -63,6 +63,20 @@ class Service(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def get_indices_response(self):
+        """
+        Get response from the service endpoint.
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_pending_tasks_response(self):
+        """
+        Get response from the service endpoint.
+        """
+        pass
+
+    @abc.abstractmethod
     def check_service_response_text(self):
         """
         Check response text from the service endpoint.
