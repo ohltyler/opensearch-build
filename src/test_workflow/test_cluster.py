@@ -6,6 +6,7 @@
 
 import abc
 import os
+import time
 from contextlib import contextmanager
 
 from test_workflow.test_recorder.test_result_data import TestResultData
@@ -59,6 +60,9 @@ class TestCluster(abc.ABC):
 
         for service in self.all_services:
             service.wait_for_service()
+            for attempt in range(10):
+                service.ping_service_status()
+                time.sleep(10)
 
     def terminate(self):
         if self.service:
