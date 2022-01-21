@@ -71,7 +71,7 @@ class ServiceOpenSearch(Service):
         return 9200
 
     def check_service_response_text(self, response_text):
-        return ('"status":"green"' in response_text) or ('"status":"yellow"' in response_text)
+        return ('"number_of_pending_tasks":0' in response_text)
 
     @property
     def log_files(self):
