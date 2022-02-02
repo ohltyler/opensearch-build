@@ -55,10 +55,13 @@ class IntegTestSuite(abc.ABC):
 
     def execute_integtest_sh(self, endpoint, port, security, test_config):
         script = ScriptFinder.find_integ_test_script(self.component.name, self.repo.working_directory)
+        logging.info(f"script: {script}")
         if os.path.exists(script):
             cmd = f"{script} -b {endpoint} -p {port} -s {str(security).lower()} -v {self.bundle_manifest.build.version}"
+            logging.info(f"cmd: {cmd}")
             self.repo_work_dir = os.path.join(
                 self.repo.dir, self.test_config.working_directory) if self.test_config.working_directory is not None else self.repo.dir
+            logging.info(f"repo_work_dir: {self.repo_work_dir}")
             (status, stdout, stderr) = execute(cmd, self.repo_work_dir, True, False)
 
             test_result_data = TestResultData(
