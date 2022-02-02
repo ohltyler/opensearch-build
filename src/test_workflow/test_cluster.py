@@ -60,6 +60,7 @@ class TestCluster(abc.ABC):
 
         for service in self.all_services:
             service.wait_for_service()
+            time.sleep(30)
 
     def terminate(self):
         if self.service:
